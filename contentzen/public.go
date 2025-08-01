@@ -17,11 +17,14 @@ func (c *Client) GetPublicDocuments(collectionUUID string) ([]Document, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status: %s", resp.Status)
 	}
-	var docs []Document
-	if err := json.NewDecoder(resp.Body).Decode(&docs); err != nil {
+	// The API returns {"data": [...], ...}
+	var result struct {
+		Data []Document `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
 	}
-	return docs, nil
+	return result.Data, nil
 }
 
 // GetPublicDocument fetches a specific published document from a public collection.
