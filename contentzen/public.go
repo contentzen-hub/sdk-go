@@ -3,7 +3,6 @@ package contentzen
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
